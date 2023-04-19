@@ -33,7 +33,3 @@ mkdir template/fdc
 cp template/fc/index.mif template/fdc
 cp template/fc/directions.mif template/fdc
 for_each subjects/* : mrcalc template/fd/IN.mif template/fc/IN.mif -mult template/fdc/IN.mif
-
-
-
-
