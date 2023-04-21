@@ -2,8 +2,11 @@
 set -e
 
 # TO DO: create files.txt, design_matrix.txt and contrast_matrix.txt
+metrics="fd log_fc fdc"
+
+for i in $metrics; do
+    fixelcfestats template/${i}_smooth/ files_${i}.txt design_matrix.txt contrast_matrix.txt template/matrix/ template/stats_${i}/ -force
+done
+
 
 # Perform statistical analysis of FD, FC, and FDC
-fixelcfestats fd_smooth/ files.txt design_matrix.txt contrast_matrix.txt matrix/ stats_fd/
-fixelcfestats log_fc_smooth/ files.txt design_matrix.txt contrast_matrix.txt matrix/ stats_log_fc/
-fixelcfestats fdc_smooth/ files.txt design_matrix.txt contrast_matrix.txt matrix/ stats_fdc/
