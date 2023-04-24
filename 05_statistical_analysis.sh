@@ -1,7 +1,10 @@
 #!/bin/bash
 set -e
 
-# TO DO: create files.txt, design_matrix.txt and contrast_matrix.txt
+rm -f design_matrix.txt files_log_fc.txt files_fd.txt files_fdc.txt
+for_each subjects/* : ./create_files_statistical_analysis.sh PRE
+
+
 metrics="fd log_fc fdc"
 
 for i in $metrics; do
