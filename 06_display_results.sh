@@ -2,7 +2,7 @@
 set -e
 
 # Reduce the whole-brain template tractogram to a sensible number of streamlines so mrview can handle it
-tckedit template/tracks_2_million_sift.tck -num 200000 template/tracks_200k_sift.tck
+tckedit template/tracks_1_million_sift.tck -num 100000 template/tracks_100k_sift.tck
 
 read -p 'Choose metric [fd|log_fc|fdc]: ' metric
 
