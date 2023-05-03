@@ -11,15 +11,14 @@ for_each subjects/* : mtnormalise IN/wmfod.mif IN/wmfod_norm.mif IN/gm.mif IN/gm
 for_each subjects/* : rm IN/wmfod.mif
 
 # Generate a study-specific unbiased FOD template
-mkdir -p template/fod_input
-mkdir -p template/mask_input
+mkdir -p template/fod_input; mkdir -p template/mask_input
 
-for_each subjects/* : ln -sfr IN/wmfod_norm.mif template/fod_input/PRE.mif
-for_each subjects/* : ln -sfr IN/mask_upsampled.mif template/mask_input/PRE.mif
+for_each subjects/* : ln -sf IN/wmfod_norm.mif template/fod_input/PRE.mif
+for_each subjects/* : ln -sf IN/mask_upsampled.mif template/mask_input/PRE.mif
 
 # If we wanted to select only a sample of the data
-#for_each `ls -d *patient | sort -R | tail -20` : ln -sr IN/wmfod_norm.mif ../template/fod_input/PRE.mif ";" ln -sr IN/dwi_mask_upsampled.mif ../template/mask_input/PRE.mif
-#for_each `ls -d *control | sort -R | tail -20` : ln -sr IN/wmfod_norm.mif ../template/fod_input/PRE.mif ";" ln -sr IN/dwi_mask_upsampled.mif ../template/mask_input/PRE.mif
+for_each `ls -d subjects/*-midcycle* | sort -R | tail -5` : ln -sfr IN/wmfod_norm.mif template/fod_input/PRE.mif ";" ln -sfr IN/mask_upsampled.mif template/mask_input/PRE.mif; for_each `ls -d subjects/*-premenstrual* | sort -R | tail -5` : ln -sfr IN/wmfod_norm.mif template/fod_input/PRE.mif ";" ln -sfr IN/mask_upsampled.mif template/mask_input/PRE.mif; for_each `ls -d subjects/*-interictal* | sort -R | tail -5` : ln -sfr IN/wmfod_norm.mif template/fod_input/PRE.mif ";" ln -sfr IN/mask_upsampled.mif template/mask_input/PRE.mif; for_each `ls -d subjects/*-ictal* | sort -R | tail -5` : ln -sfr IN/wmfod_norm.mif template/fod_input/PRE.mif ";" ln -sfr IN/mask_upsampled.mif template/mask_input/PRE.mif
+
 
 population_template template/fod_input -mask_dir template/mask_input template/wmfod_template.mif -voxel_size 1.25 -force
 

@@ -2,15 +2,19 @@
 set -e
 
 #  Compute a white matter template analysis fixel mask
+rm -r template/fixel_mask
 fod2fixel -mask template/template_mask.mif -fmls_peak_value 0.06 template/wmfod_template.mif template/fixel_mask -force
 
 # Warp FOD images to template space
+rm -r template/fod_in_template_space_NOT_REORIENTED
 for_each subjects/* : mrtransform IN/wmfod_norm.mif -warp IN/subject2template_warp.mif -reorient_fod no IN/fod_in_template_space_NOT_REORIENTED.mif -force
 
 # Segment FOD images to estimate fixels and their apparent fibre density (FD)
 for_each subjects/* : fod2fixel -mask template/template_mask.mif IN/fod_in_template_space_NOT_REORIENTED.mif IN/fixel_in_template_space_NOT_REORIENTED -afd fd.mif -force
+for_each subjects/* : rm IN/fod_in_template_space_NOT_REORIENTED.mif
 
 # Reorient fixels
+rm -r fixel_in_template_space
 for_each subjects/* : fixelreorient IN/fixel_in_template_space_NOT_REORIENTED IN/subject2template_warp.mif IN/fixel_in_template_space -force
 
 # Remove fixel_in_template_space_NOT_REORIENTED folders 
