@@ -11,6 +11,7 @@ for_each subjects/* : mtnormalise IN/wmfod.mif IN/wmfod_norm.mif IN/gm.mif IN/gm
 for_each subjects/* : rm IN/wmfod.mif
 
 # Generate a study-specific unbiased FOD template
+rm -rf template/fod_input template/mask_input
 mkdir -p template/fod_input; mkdir -p template/mask_input
 
 for_each subjects/* : ln -sf IN/wmfod_norm.mif template/fod_input/PRE.mif
