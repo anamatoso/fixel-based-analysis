@@ -14,14 +14,18 @@ for_each subjects/* : rm IN/wmfod.mif
 rm -rf template/fod_input template/mask_input
 mkdir -p template/fod_input; mkdir -p template/mask_input
 
-for_each subjects/* : ln -sf IN/wmfod_norm.mif template/fod_input/PRE.mif
-for_each subjects/* : ln -sf IN/mask_upsampled.mif template/mask_input/PRE.mif
+#for_each subjects/* : ln -sf IN/wmfod_norm.mif template/fod_input/PRE.mif
+#for_each subjects/* : ln -sf IN/mask_upsampled.mif template/mask_input/PRE.mif
 
 # If we wanted to select only a sample of the data
-for_each `ls -d subjects/*-midcycle* | sort -R | tail -5` : ln -sfr IN/wmfod_norm.mif template/fod_input/PRE.mif ";" ln -sfr IN/mask_upsampled.mif template/mask_input/PRE.mif; for_each `ls -d subjects/*-premenstrual* | sort -R | tail -5` : ln -sfr IN/wmfod_norm.mif template/fod_input/PRE.mif ";" ln -sfr IN/mask_upsampled.mif template/mask_input/PRE.mif; for_each `ls -d subjects/*-interictal* | sort -R | tail -5` : ln -sfr IN/wmfod_norm.mif template/fod_input/PRE.mif ";" ln -sfr IN/mask_upsampled.mif template/mask_input/PRE.mif; for_each `ls -d subjects/*-ictal* | sort -R | tail -5` : ln -sfr IN/wmfod_norm.mif template/fod_input/PRE.mif ";" ln -sfr IN/mask_upsampled.mif template/mask_input/PRE.mif
-
-
 population_template template/fod_input -mask_dir template/mask_input template/wmfod_template.mif -voxel_size 1.25 -force
+for_each `ls -d subjects/*-midcycle* | sort -R | tail -8` : ln -sfr IN/wmfod_norm.mif template/fod_input/PRE.mif ";" ln -sfr IN/mask_upsampled.mif template/mask_input/PRE.mif; 
+for_each `ls -d subjects/*-premenstrual* | sort -R | tail -8` : ln -sfr IN/wmfod_norm.mif template/fod_input/PRE.mif ";" ln -sfr IN/mask_upsampled.mif template/mask_input/PRE.mif; 
+for_each `ls -d subjects/*-interictal* | sort -R | tail -8` : ln -sfr IN/wmfod_norm.mif template/fod_input/PRE.mif ";" ln -sfr IN/mask_upsampled.mif template/mask_input/PRE.mif; 
+for_each `ls -d subjects/*-ictal* | sort -R | tail -8` : ln -sfr IN/wmfod_norm.mif template/fod_input/PRE.mif ";" ln -sfr IN/mask_upsampled.mif template/mask_input/PRE.mif;
+for_each `ls -d subjects/*-preictal* | sort -R | tail -8` : ln -sfr IN/wmfod_norm.mif template/fod_input/PRE.mif ";" ln -sfr IN/mask_upsampled.mif template/mask_input/PRE.mif;
+for_each `ls -d subjects/*-postictal* | sort -R | tail -8` : ln -sfr IN/wmfod_norm.mif template/fod_input/PRE.mif ";" ln -sfr IN/mask_upsampled.mif template/mask_input/PRE.mif;
+
 
 # Register all subject FOD images to the FOD template
 for_each subjects/* : mrregister IN/wmfod_norm.mif -mask1 IN/mask_upsampled.mif template/wmfod_template.mif -nl_warp IN/subject2template_warp.mif IN/template2subject_warp.mif -force
