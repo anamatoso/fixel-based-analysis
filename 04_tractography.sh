@@ -13,6 +13,7 @@ rm -rf matrix
 fixelconnectivity fixel_mask/ tracks_1_million_sift.tck matrix/ -force
 
 # Smooth fixel data using fixel-fixel connectivity
+rm -r fd_smooth log_fc_smooth fdc_smooth
 fixelfilter fd smooth fd_smooth -matrix matrix/ -force
 fixelfilter log_fc smooth log_fc_smooth -matrix matrix/ -force
 fixelfilter fdc smooth fdc_smooth -matrix matrix/ -force
