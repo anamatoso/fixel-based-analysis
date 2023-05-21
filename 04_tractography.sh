@@ -17,6 +17,7 @@ tckgen -angle 22.5 -maxlen 250 -minlen 10 -power 1.0 wmfod_template.mif -seed_im
 
 # Reduce biases in tractogram densities
 tcksift tracks_10_million.tck wmfod_template.mif tracks_1_million_sift.tck -term_number 1000000 -force
+rm tracks_10_million.tck
 
 # Generate fixel-fixel connectivity matrix
 rm -rf matrix
@@ -30,5 +31,6 @@ fixelfilter fdc smooth fdc_smooth -matrix matrix/ -force
 
 # Reduce the whole-brain template tractogram to a sensible number of streamlines so mrview can handle it when displaying the results
 tckedit tracks_1_million_sift.tck -num 100000 tracks_100k_sift.tck -force
+rm tracks_1_million_sift.tck
 
 cd ..
