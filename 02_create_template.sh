@@ -2,6 +2,15 @@
 
 set -e
 
+read -p 'Choose Suffix: ' arg
+if ! [ "${arg}" == "" ]; then 
+    suffix="_${arg}"
+else
+    echo "This will procede without a suffix and the template directory will be overwritten. You have 10s to cancel."
+    sleep 10
+    suffix=""
+fi
+
 # Fibre Orientation Distribution estimation (multi-tissue spherical deconvolution)
 for_each subjects/* : dwi2fod msmt_csd IN/dwi_upsampled.mif group_average_response_wm.txt IN/wmfod.mif group_average_response_gm.txt IN/gm.mif group_average_response_csf.txt IN/csf.mif -mask IN/mask_upsampled.mif -force
 for_each subjects/* : rm IN/dwi_upsampled.mif
@@ -32,6 +41,6 @@ for_each subjects/* : mrregister IN/wmfod_norm.mif -mask1 IN/mask_upsampled.mif 
 
 # Compute the template mask (intersection of all subject masks in template space)
 for_each subjects/* : mrtransform IN/mask_upsampled.mif -warp IN/subject2template_warp.mif -interp nearest -datatype bit IN/dwi_mask_in_template_space.mif -force
-mrmath subjects/*/dwi_mask_in_template_space.mif min template/template_mask.mif -datatype bit -force
+mrmath subjects/*/dwi_mask_in_template_space"${suffix}"s.mif min "template/template_mask${suffix}.mif" -datatype bit -force
 
 # check at this stage that the resulting template mask includes all regions of the brain that are intended to be analysed
