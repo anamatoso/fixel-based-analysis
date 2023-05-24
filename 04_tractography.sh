@@ -21,6 +21,9 @@ tckgen -angle 22.5 -maxlen 250 -minlen 10 -power 1.0 wmfod_template.mif -seed_im
 tcksift tracks_10_million.tck wmfod_template.mif tracks_1_million_sift.tck -term_number 1000000 -force
 rm tracks_10_million.tck
 
+# Creating the connectome 
+tck2connectome -symmetric -zero_diagonal -scale_invnodevol tracks_1_million_sift.tck ${atlas} "con_matrix${suffix}.csv" -force
+
 # Generate fixel-fixel connectivity matrix
 rm -rf matrix
 fixelconnectivity fixel_mask/ tracks_1_million_sift.tck matrix/ -force
