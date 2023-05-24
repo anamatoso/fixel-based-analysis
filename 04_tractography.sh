@@ -14,7 +14,7 @@ fi
 read -p 'Write the path to the atlas: ' atlas
 
 # Perform whole-brain fibre tractography on the FOD template
-cd template"${suffix}"
+cd template${suffix}
 tckgen -angle 22.5 -maxlen 250 -minlen 10 -power 1.0 wmfod_template.mif -seed_image template_mask.mif -mask template_mask.mif -select 10000000 -cutoff 0.06 tracks_10_million.tck -force
 
 # Reduce biases in tractogram densities

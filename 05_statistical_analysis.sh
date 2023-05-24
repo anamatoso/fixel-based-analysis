@@ -17,7 +17,7 @@ comparisons="midinter midpre preict interict"
 
 for c in $comparisons; do
     for i in $metrics; do
-    python ./create_files_stats.py "$c" "$i"
-    fixelcfestats template"${suffix}"/"${i}"_smooth/ text_files/files_"${i}"_"${c}".txt text_files/design_matrix_"${c}".txt text_files/contrast_matrix.txt template"${suffix}"/matrix/ template"${suffix}"/stats_"${i}"_"${c}"/ -force
+    python ./create_files_stats.py $c $i
+    fixelcfestats template${suffix}/${i}_smooth/ text_files/files_${i}_${c}.txt text_files/design_matrix_${c}.txt text_files/contrast_matrix.txt template${suffix}/matrix/ template${suffix}/stats_${i}_${c}/ -force
     done
 done
