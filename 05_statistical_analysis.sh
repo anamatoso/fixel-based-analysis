@@ -1,10 +1,8 @@
 #!/bin/bash
 set -e
 
-# Prepare files
-
-arg=$1
-
+# Get suffix of the template directory
+read -p 'Choose Suffix: ' arg
 if ! [ "${arg}" == "" ]; then 
     suffix="_${arg}"
 else
@@ -14,7 +12,7 @@ else
 fi
 
 # Perform statistical analysis of FD, FC, and FDC
-metrics="fd log_fc fdc"
+metrics="fdc"
 comparisons="midinter midpre preict interict"
 
 for c in $comparisons; do

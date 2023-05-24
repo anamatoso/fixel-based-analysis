@@ -11,8 +11,8 @@ read -p 'Choose Suffix: ' arg
 if ! [ "${arg}" == "" ]; then 
     suffix="_${arg}"
 else
-    echo "This will procede without a suffix and the template directory will be overwritten. You have 10s to cancel."
-    sleep 10
+    echo "This will procede without a suffix and the template directory will be overwritten. You have 3s to cancel."
+    sleep 3
     suffix=""
 fi
 

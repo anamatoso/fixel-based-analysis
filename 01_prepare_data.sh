@@ -18,4 +18,4 @@ for_each subjects/* : rm IN/dwi.mif
 for_each subjects/* : mrgrid IN/mask.mif regrid -vox 1.25 IN/mask_upsampled.mif -force
 for_each subjects/* : rm IN/mask.mif
 
-# check at this stage that all individual subject masks include all regions of the brain that are intended to be analysed
+# Check at this stage that all individual subject masks include all regions of the brain that are intended to be analysed

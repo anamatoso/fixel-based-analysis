@@ -1,8 +1,8 @@
 #!/bin/bash
 set -e
 
-arg=$1
-
+# Get suffix of the template directory
+read -p 'Choose Suffix: ' arg
 if ! [ "${arg}" == "" ]; then 
     suffix="_${arg}"
 else
@@ -10,6 +10,8 @@ else
     sleep 10
     suffix=""
 fi
+
+read -p 'Write the path to the atlas: ' atlas
 
 # Perform whole-brain fibre tractography on the FOD template
 cd template"${suffix}"

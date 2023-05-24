@@ -6,7 +6,7 @@ subject=$1
 group=${subject:4:7}
 cycle=${subject:19}
 
-if [ "$group" == "control" ]; then
+if [ $group == "control" ]; then
     c="1"
     p="0"
 else
@@ -14,7 +14,7 @@ else
     p="1"
 fi
 
-if [ "$cycle" == "midcycle" ] || [ "$cycle" == "interictal" ]; then
+if [ $cycle == "midcycle" ] || [ $cycle == "interictal" ]; then
     c1="1"
     c2="0"
 else

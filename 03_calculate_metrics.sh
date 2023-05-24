@@ -1,8 +1,8 @@
 #!/bin/bash
 set -e
 
-arg=$1
-
+# Get suffix of the template directory
+read -p 'Choose Suffix: ' arg
 if ! [ "${arg}" == "" ]; then 
     suffix="_${arg}"
 else
@@ -11,9 +11,9 @@ else
     suffix=""
 fi
 
-#  Compute a white matter template analysis fixel mask
 rm -rf template"${suffix}"/fixel_mask_template
 fod2fixel -mask template"${suffix}"/template_mask.mif -fmls_peak_value 0.06 template"${suffix}"/wmfod_template.mif template"${suffix}"/fixel_mask -force
+# Compute a white matter template analysis fixel mask
 
 # Warp FOD images to template space
 rm -rf template"${suffix}"/fod_in_template_space_NOT_REORIENTED

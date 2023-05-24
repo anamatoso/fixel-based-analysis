@@ -1,7 +1,7 @@
 #!/bin/bash
-
 set -e
 
+# Get suffix of the template directory
 read -p 'Choose Suffix: ' arg
 if ! [ "${arg}" == "" ]; then 
     suffix="_${arg}"
@@ -43,4 +43,4 @@ for_each subjects/* : mrregister IN/wmfod_norm.mif -mask1 IN/mask_upsampled.mif 
 for_each subjects/* : mrtransform IN/mask_upsampled.mif -warp IN/subject2template_warp.mif -interp nearest -datatype bit IN/dwi_mask_in_template_space.mif -force
 mrmath subjects/*/dwi_mask_in_template_space"${suffix}"s.mif min "template/template_mask${suffix}.mif" -datatype bit -force
 
-# check at this stage that the resulting template mask includes all regions of the brain that are intended to be analysed
+# Check at this stage that the resulting template mask includes all regions of the brain that are intended to be analysed
