@@ -36,7 +36,7 @@ for_each `ls -d subjects/*-preictal* | sort -R | tail -8` : ln -sfr IN/wmfod_nor
 for_each `ls -d subjects/*-postictal* | sort -R | tail -8` : ln -sfr IN/wmfod_norm.mif template${suffix}/fod_input/PRE.mif ";" ln -sfr IN/mask_upsampled.mif template${suffix}/mask_input/PRE.mif;
 
 # Generate a study-specific unbiased FOD template
-./population_template template${suffix}/fod_input -mask_dir template${suffix}/mask_input template${suffix}/wmfod_template.mif -voxel_size 1.25 -force
+./population_template_ana template${suffix}/fod_input -mask_dir template${suffix}/mask_input template${suffix}/wmfod_template.mif -voxel_size 1.25 -force
 
 # Register all subject FOD images to the FOD template
 for_each subjects/* : mrregister IN/wmfod_norm.mif -mask1 IN/mask_upsampled.mif template${suffix}/wmfod_template.mif -nl_warp IN/subject2template_warp${suffix}.mif IN/template2subject_warp${suffix}.mif -force
