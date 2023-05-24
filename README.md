@@ -1,4 +1,4 @@
-# fixel-based-analysis
+# Fixel-based Analysis in Migraine Study
 
 This repository consists of the code created in order to perform the fixel based analysis of MRtrix in diffusion data. In this work, a comparison of the fixel metrics was made not only between controls and patients but also longitudinally between different stages of the menstrual cycle.
 
