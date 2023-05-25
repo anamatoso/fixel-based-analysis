@@ -46,7 +46,11 @@ directory = cwd+'/subjects'
 # Select comparison, metrics and suffix to analyse comparison
 comp=sys.argv[1]
 metric=sys.argv[2]
-suf=sys.argv[3]
+if len(sys.argv)==4:
+    suf=sys.argv[3]
+else:
+    suf=""
+
 
 # Resolve suffix
 if not suf == "":
@@ -56,32 +60,44 @@ else:
 
 # Get names of groups from comparison
 if comp ==  "midinter":
-    group1 = "midcycle"
-    group2 = "interictal"
+    group1 = "-midcycle"
+    group2 = "-interictal"
 elif comp ==  "midpre":
-    group1 = "midcycle"
-    group2 = "premenstrual"
+    group1 = "-midcycle"
+    group2 = "-premenstrual"
 elif comp ==  "preict":
-    group1 = "premenstrual"
-    group2 = "ictal"
+    group1 = "-premenstrual"
+    group2 = "-ictal"
 else:
-    group1 = "interictal"
-    group2 = "ictal"
+    group1 = "-interictal"
+    group2 = "-ictal"
+
+# Define intercept
+if comp ==  "midpre" or comp == "interict":
+    intercept=0
+else:
+    intercept=1
 
 
 # Define variables
 design_matrix = [] # List to store the design matrix rows
 files=[] # List to store the filenames for the files text file
-subjects=[filename.split('_')[0].split('-')[1] for filename in os.listdir(directory) if filename.startswith('sub') and (filename.endswith(group1) or filename.endswith(group2))] # List of subject names from comparison (has duplicates)
-subjects=list(set(subjects)) # List of subject names from comparison without duplicates
 
+# Define list of subjects: paired of unpaired
+if comp ==  "midpre" or comp == "interict":
+    subjects=[filename.split('_')[0].split('-')[1] for filename in os.listdir(directory) if filename.startswith('sub') and (filename.endswith(group1) or filename.endswith(group2))] # List of subject names from comparison (has duplicates)
+    subjects_common=[i for i in subjects if subjects.count(i)>1] # List of subject that have both sessions (and so appear more then once)
+    subjects=list(set(subjects_common)) # List of subject names from comparison without duplicates
+else:
+    subjects=[filename.split('_')[0].split('-')[1] for filename in os.listdir(directory) if filename.startswith('sub') and (filename.endswith(group1) or filename.endswith(group2))] # List of subject names from comparison (has duplicates)
+    subjects=list(set(subjects)) # List of subject names from comparison without duplicates
 
 # Iterate over the chosen files in the subjects directory
 for filename in os.listdir(directory):
 
     # Only select files from the comparison
     if filename.startswith('sub') and (filename.endswith(group1) or filename.endswith(group2)):  
-
+        
         # Extract the subject, group, and session information from the filename
         subject = filename.split('_')[0].split('-')[1]
         group = '1' if group1 in filename else '0'
@@ -90,8 +106,13 @@ for filename in os.listdir(directory):
         # Make subjects columns
         people = [str(int(subject==subjects[i])) for i in range(len(subjects))]
 
-        # Create a row for the design matrix and for the files
-        row = [1, group, session] + people
+        # Create a row for the design matrix and for the files (different depending on if it is paired or not)
+        if comp ==  "midpre" or comp == "interict":
+            g = 1 if group == '1' else -1
+            row = [intercept, g] + people
+        else:
+            row = [intercept, group, session]
+
         design_matrix.append(row)
         files.append(["template" + suffix + "/" + metric + "/" + filename + ".mif"])
 
@@ -100,11 +121,15 @@ matrix=remove_zero_columns(design_matrix)
 write_matrix_to_txt(matrix, cwd+"/text_files/design_matrix_"+ comp +".txt")
 
 # Create contrast matrix
-contrast_matrix=[
-    [0, 1, -1] + [0 for i in range(len(people))],
-    [0, -1, 1] + [0 for i in range(len(people))]
+contrast_matrix_unpaired=[
+    [0, 1, -1],
+    [0, -1, 1]
 ]
-
+contrast_matrix_paired=[
+    [1] + [0 for i in range(len(people))],
+    [-1] + [0 for i in range(len(people))]
+]
 # Create txt file of contrast matrix an files
-write_matrix_to_txt(contrast_matrix, cwd+"/text_files/contrast_matrix.txt")
+write_matrix_to_txt(contrast_matrix_unpaired, cwd+"/text_files/contrast_matrix_unpaired.txt")
+write_matrix_to_txt(contrast_matrix_paired, cwd+"/text_files/contrast_matrix_paired.txt")
 write_matrix_to_txt(files, cwd+"/text_files/files_" + metric + "_" + comp + ".txt")
