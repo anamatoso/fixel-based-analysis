@@ -11,7 +11,7 @@ else
     suffix=""
 fi
 
-read -p 'Write the path to the atlas: ' atlas
+read -p 'Name of atlas: ' atlas
 
 # Perform whole-brain fibre tractography on the FOD template
 cd template${suffix}
@@ -22,7 +22,7 @@ tcksift tracks_10_million.tck wmfod_template.mif tracks_1_million_sift.tck -term
 rm tracks_10_million.tck
 
 # Creating the connectome 
-tck2connectome -symmetric -zero_diagonal -scale_invnodevol tracks_1_million_sift.tck ${atlas} "con_matrix${suffix}.csv" -force
+tck2connectome -symmetric -zero_diagonal -scale_invnodevol tracks_1_million_sift.tck ${atlas}_template.mif "con_matrix${suffix}_${atlas}.csv" -force
 
 # Generate fixel-fixel connectivity matrix
 rm -rf matrix

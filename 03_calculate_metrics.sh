@@ -12,7 +12,6 @@ else
 fi
 
 # Compute a white matter template analysis fixel mask
-rm -rf template${suffix}/fixel_mask_template
 fod2fixel -mask template${suffix}/template_mask.mif -fmls_peak_value 0.06 template${suffix}/wmfod_template.mif template${suffix}/fixel_mask -force
 
 # Warp FOD images to template space
