@@ -4,9 +4,9 @@ close all
 clc
 
 %% Load data
-
+ 
 % Define variables
-atlases = ["JHUtracts" "JHUlabels"];
+atlases = ["JHUtracts" "JHUlabels" "AAL116"];
 groups = ["controls" "ictals"];
 
 % Iterate through csvs to load matrices
@@ -58,7 +58,6 @@ for atlas = 1 : length(atlases)
     for group = 1 : length(groups)
         results{atlas}=table(metrics_labels', data_metrics.(atlases(atlas)).(groups(1)),data_metrics.(atlases(atlas)).(groups(2)),'VariableNames', ["Metric","Controls", "Patients"]);
     end
-
 end
 
 clear group atlas 
