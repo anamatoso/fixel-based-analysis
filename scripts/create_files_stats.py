@@ -134,12 +134,13 @@ for filename in os.listdir(directory):
         else:
             row = [intercept, group, session]
 
+        # Add subject to design matrix and to files text file
         design_matrix.append(row)
-        files.append(["template" + suffix + "/" + metric + "/" + filename + ".mif"])
+        files.append(["template" + suffix + "/" + metric + "_smooth/" + filename + ".mif"])
 
 # Create txt file of design matrix
 matrix=remove_zero_columns(design_matrix)
-write_matrix_to_txt(matrix, cwd+"/text_files/design_matrix_"+ comp +".txt")
+write_matrix_to_txt(matrix, cwd + "/template" + suffix + "/text_files/design_matrix_"+ comp +".txt")
 
 # Create contrast matrix
 contrast_matrix_unpaired=[
@@ -151,6 +152,6 @@ contrast_matrix_paired=[
     [-1] + [0 for i in range(len(people))]
 ]
 # Create txt file of contrast matrix an files
-write_matrix_to_txt(contrast_matrix_unpaired, cwd+"/text_files/contrast_matrix_unpaired.txt")
-write_matrix_to_txt(contrast_matrix_paired, cwd+"/text_files/contrast_matrix_paired.txt")
-write_matrix_to_txt(files, cwd+"/text_files/files_" + metric + "_" + comp + ".txt")
+write_matrix_to_txt(contrast_matrix_unpaired, cwd+ "/template" + suffix + "/text_files/contrast_matrix_unpaired.txt")
+write_matrix_to_txt(contrast_matrix_paired, cwd+ "/template" + suffix + "/text_files/contrast_matrix_paired.txt")
+write_matrix_to_txt(files, cwd + "/template" + suffix +"/text_files/files_" + metric + "_" + comp + ".txt")
