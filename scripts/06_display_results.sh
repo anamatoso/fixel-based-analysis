@@ -6,15 +6,16 @@ read -p 'Choose metric [fd | log_fc | fdc]: ' metric
 read -p 'Choose statistic [fwe_1mpvalue | uncorrected_pvalue | tvalue | Zstat]: ' stat
 read -p 'Choose comparison [midinter| midpre | preict | interpre]: ' comp
 read -p 'Choose contrast [sup | inf]: ' contrast
-read -p 'Choose Suffix: ' arg
+read -p 'Choose Suffix of template (use underscore if needed): ' suffix
+read -p 'Choose Atlas (use underscore if needed): ' atlas
 
-if ! [ "${arg}" == "" ]; then 
-    suffix="_${arg}"
-else
-    echo "This will procede without a suffix and the template directory will be overwritten. You have 3s to cancel."
-    sleep 3
-    suffix=""
-fi
+if [ ${stat} == "uncorrected_pvalue" ]; then 
+        limit1=0
+        limit2=0.05
+    else
+        limit1=0.95
+        limit2=1
+    fi
 
 # Create output directory
 mkdir -p template${suffix}/tsf_files
