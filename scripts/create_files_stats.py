@@ -62,15 +62,36 @@ else:
 if comp ==  "midinter":
     group1 = "-midcycle"
     group2 = "-interictal"
-elif comp ==  "midpre":
+elif comp ==  "midprem":
     group1 = "-midcycle"
     group2 = "-premenstrual"
-elif comp ==  "preict":
+elif comp ==  "premict":
     group1 = "-premenstrual"
     group2 = "-ictal"
-else:
+elif comp ==  "interict":
     group1 = "-interictal"
     group2 = "-ictal"
+elif comp ==  "prempost":
+    group1 = "-premenstrual"
+    group2 = "-postictal"
+elif comp ==  "prempre":
+    group1 = "-premenstrual"
+    group2 = "-preictal"
+elif comp ==  "ictpost":
+    group1 = "-ictal"
+    group2 = "-postictal"
+elif comp ==  "postinter":
+    group1 = "-postictal"
+    group2 = "-interictal"
+elif comp ==  "preict":
+    group1 = "-preictal"
+    group2 = "-ictal"
+elif comp ==  "preinter":
+    group1 = "-preictal"
+    group2 = "-interictal"
+elif comp ==  "prepost":
+    group1 = "-preictal"
+    group2 = "-postictal"
 
 # Define intercept
 if comp ==  "midpre" or comp == "interict":
