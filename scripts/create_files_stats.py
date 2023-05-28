@@ -93,25 +93,25 @@ elif comp ==  "prepost":
     group1 = "-preictal"
     group2 = "-postictal"
 
-# Define intercept
-if comp ==  "midpre" or comp == "interict":
-    intercept=0
+# Check whether it is a paired or unpaired design
+if comp == "midinter" or comp == "premict" or comp == "prempost" or comp == "prempre":
+    paired=False
 else:
-    intercept=1
-
+    paired=True
 
 # Define variables
 design_matrix = [] # List to store the design matrix rows
 files=[] # List to store the filenames for the files text file
 
 # Define list of subjects: paired of unpaired
-if comp ==  "midpre" or comp == "interict":
+if not paired: # unpaired
+    subjects=[filename.split('_')[0].split('-')[1] for filename in os.listdir(directory) if filename.startswith('sub') and (filename.endswith(group1) or filename.endswith(group2))] # List of subject names from comparison (has duplicates)
+    subjects=list(set(subjects)) # List of subject names from comparison without duplicates
+else:
     subjects=[filename.split('_')[0].split('-')[1] for filename in os.listdir(directory) if filename.startswith('sub') and (filename.endswith(group1) or filename.endswith(group2))] # List of subject names from comparison (has duplicates)
     subjects_common=[i for i in subjects if subjects.count(i)>1] # List of subject that have both sessions (and so appear more then once)
     subjects=list(set(subjects_common)) # List of subject names from comparison without duplicates
-else:
-    subjects=[filename.split('_')[0].split('-')[1] for filename in os.listdir(directory) if filename.startswith('sub') and (filename.endswith(group1) or filename.endswith(group2))] # List of subject names from comparison (has duplicates)
-    subjects=list(set(subjects)) # List of subject names from comparison without duplicates
+
 
 # Iterate over the chosen files in the subjects directory
 for filename in os.listdir(directory):
@@ -128,11 +128,11 @@ for filename in os.listdir(directory):
         people = [str(int(subject==subjects[i])) for i in range(len(subjects))]
 
         # Create a row for the design matrix and for the files (different depending on if it is paired or not)
-        if comp ==  "midpre" or comp == "interict":
+        if not paired: # unpaired
+            row = [group, session]
+        else: # paired
             g = 1 if group == '1' else -1
-            row = [intercept, g] + people
-        else:
-            row = [intercept, group, session]
+            row = [g] + people
 
         # Add subject to design matrix and to files text file
         design_matrix.append(row)
@@ -142,10 +142,10 @@ for filename in os.listdir(directory):
 matrix=remove_zero_columns(design_matrix)
 write_matrix_to_txt(matrix, cwd + "/template" + suffix + "/text_files/design_matrix_"+ comp +".txt")
 
-# Create contrast matrix
+# Create contrast matrices
 contrast_matrix_unpaired=[
-    [0, 1, -1],
-    [0, -1, 1]
+    [1, -1],
+    [-1, 1]
 ]
 contrast_matrix_paired=[
     [1] + [0 for i in range(len(people))],
