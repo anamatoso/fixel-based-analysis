@@ -16,7 +16,7 @@ metrics="fdc fd log_fc"
 comparisons="midinter midprem premict interict"
 atlases="JHUlabels JHUtracts AAL116"
 
-# Output directory and text files derectory
+# Output directory and text files directory
 mkdir -p template${suffix}/stats_results
 mkdir -p template${suffix}/text_files
 
