@@ -11,25 +11,42 @@ else
     suffix=""
 fi
 
-# Perform statistical analysis of FD, FC, and FDC
-metrics="fdc log_fc fd"
-comparisons="midinter midpre preict interict"
-mkdir -p text_files
-for c in $comparisons; do
-    for i in $metrics; do
-    echo " "
-    echo "Starting comparison ${c} of metric ${i}"
-    python ./create_files_stats.py $c $i $suffix
-    python ./check_rank.py "./text_files/design_matrix_${c}.txt"
-    
-    if [ ${c} == "midpre" ] || [ ${c} == "interict" ]; then 
-        contrast="contrast_matrix_paired"
-    else
-        contrast="contrast_matrix_unpaired"
-    fi
+# Perform statistical analysis of FD, FC, and FDC on various comparisons with many atlas as masks
+metrics="fdc fd log_fc"
+comparisons="midinter midprem premict interict"
+atlases="JHUlabels JHUtracts AAL116"
 
-    fixelcfestats template${suffix}/${i}_smooth/ text_files/files_${i}_${c}.txt text_files/design_matrix_${c}.txt text_files/${contrast}.txt template${suffix}/matrix/ template${suffix}/stats_${i}_${c}/ -force
-    fixelcfestats template${suffix}/${i}_smooth/ text_files/files_${i}_${c}.txt text_files/design_matrix_${c}.txt text_files/${contrast}.txt template${suffix}/matrix/ template${suffix}/stats_${i}_${c}_JHUlabels/ -mask template/fixel_JHUlabels/JHUlabels_fixel.mif -force
-    fixelcfestats template${suffix}/${i}_smooth/ text_files/files_${i}_${c}.txt text_files/design_matrix_${c}.txt text_files/${contrast}.txt template${suffix}/matrix/ template${suffix}/stats_${i}_${c}_JHUtracts/ -mask template/fixel_JHUtracts/JHUtracts_fixel.mif -force
+# Output directory and text files derectory
+mkdir -p template${suffix}/stats_results
+mkdir -p template${suffix}/text_files
+
+for i in $metrics; do
+    for c in $comparisons; do
+        echo " "
+        echo "Starting comparison ${c} of metric ${i}"
+        python ./create_files_stats.py $c $i $suffix
+        #python ./check_rank.py "./text_files/design_matrix_${c}.txt"
+        
+        if [ ${c} == "midprem" ] || [ ${c} == "interict" ]; then 
+            contrast="contrast_matrix_paired"
+        else
+            contrast="contrast_matrix_unpaired"
+        fi
+        mkdir template${suffix}/stats_results/${c}
+        fixelcfestats template${suffix}/${i}_smooth/ \
+                        template${suffix}/text_files/files_${i}_${c}.txt \
+                        template${suffix}/text_files/design_matrix_${c}.txt \
+                        template${suffix}/text_files/${contrast}.txt \
+                        template${suffix}/matrix/ \
+                        template${suffix}/stats_results/${c}/${i}/ -force
+        for atlas in $atlases; do
+            fixelcfestats template${suffix}/${i}_smooth/ \
+                            template${suffix}/text_files/files_${i}_${c}.txt \
+                            template${suffix}/text_files/design_matrix_${c}.txt \
+                            template${suffix}/text_files/${contrast}.txt \
+                            template${suffix}/matrix/ \
+                            template${suffix}/stats_results/${c}/${i}_${atlas}/ \
+                            -mask template/fixel_${atlas}/${atlas}_fixel.mif -force
+        done
     done
 done
