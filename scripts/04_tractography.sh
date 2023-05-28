@@ -33,6 +33,7 @@ rm -r fd_smooth log_fc_smooth fdc_smooth
 fixelfilter fd smooth fd_smooth -matrix matrix/ -force
 fixelfilter log_fc smooth log_fc_smooth -matrix matrix/ -force
 fixelfilter fdc smooth fdc_smooth -matrix matrix/ -force
+rm fd log_fc fdc
 
 # Reduce the whole-brain template tractogram to a sensible number of streamlines so mrview can handle it when displaying the results
 tckedit tracks_1_million_sift.tck -num 100000 tracks_100k_sift.tck -force

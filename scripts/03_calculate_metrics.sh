@@ -48,3 +48,4 @@ mkdir -p template${suffix}/fdc
 cp template${suffix}/fc/index.mif template${suffix}/fdc
 cp template${suffix}/fc/directions.mif template${suffix}/fdc
 for_each subjects/* : mrcalc template${suffix}/fd/PRE.mif template${suffix}/fc/PRE.mif -mult template${suffix}/fdc/PRE.mif -force
+rm template${suffix}/fc
