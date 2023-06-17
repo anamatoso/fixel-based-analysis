@@ -27,12 +27,13 @@ for i in $metrics; do
         python ./create_files_stats.py $c $i $suffix
         #python ./check_rank.py "./text_files/design_matrix_${c}.txt"
         
-        if [ ${c} == "midprem" ] || [ ${c} == "interict" ]; then 
-            contrast="contrast_matrix_paired"
-        else
+
+        if [ ${c} == "midinter" ] || [ ${c} == "premict" ] || [ ${c} == "prempost" ] || [ ${c} == "prempre" ]; then 
             contrast="contrast_matrix_unpaired"
+        else
+            contrast="contrast_matrix_paired"
         fi
-        mkdir template${suffix}/stats_results/${c}
+        mkdir -p template${suffix}/stats_results/${c}
         fixelcfestats template${suffix}/${i}_smooth/ \
                         template${suffix}/text_files/files_${i}_${c}.txt \
                         template${suffix}/text_files/design_matrix_${c}.txt \
