@@ -47,7 +47,7 @@ for i in $metrics; do
                             template${suffix}/text_files/${contrast}.txt \
                             template${suffix}/matrix/ \
                             template${suffix}/stats_results/${c}/${i}_${atlas}/ \
-                            -mask template/fixel_${atlas}/${atlas}_fixel.mif -force
+                            -mask template${suffix}/fixel_${atlas}/${atlas}_fixel.mif -force
         done
     done
 done
