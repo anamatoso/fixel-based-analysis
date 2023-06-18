@@ -47,16 +47,9 @@ directory = cwd+'/subjects'
 comp=sys.argv[1]
 metric=sys.argv[2]
 if len(sys.argv)==4:
-    suf=sys.argv[3]
+    suffix=sys.argv[3]
 else:
-    suf=""
-
-
-# Resolve suffix
-if not suf == "":
-    suffix="_"+suf
-else:
-    suffix=suf
+    suffix=""
 
 # Get names of groups from comparison
 if comp ==  "midinter":
@@ -104,11 +97,10 @@ design_matrix = [] # List to store the design matrix rows
 files=[] # List to store the filenames for the files text file
 
 # Define list of subjects: paired of unpaired
+subjects=[filename.split('_')[0].split('-')[1] for filename in os.listdir(directory) if filename.startswith('sub') and (filename.endswith(group1) or filename.endswith(group2))] # List of subject names from comparison (has duplicates)
 if not paired: # unpaired
-    subjects=[filename.split('_')[0].split('-')[1] for filename in os.listdir(directory) if filename.startswith('sub') and (filename.endswith(group1) or filename.endswith(group2))] # List of subject names from comparison (has duplicates)
     subjects=list(set(subjects)) # List of subject names from comparison without duplicates
 else:
-    subjects=[filename.split('_')[0].split('-')[1] for filename in os.listdir(directory) if filename.startswith('sub') and (filename.endswith(group1) or filename.endswith(group2))] # List of subject names from comparison (has duplicates)
     subjects_common=[i for i in subjects if subjects.count(i)>1] # List of subject that have both sessions (and so appear more then once)
     subjects=list(set(subjects_common)) # List of subject names from comparison without duplicates
 
