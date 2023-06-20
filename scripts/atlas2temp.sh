@@ -9,7 +9,7 @@ ATLAS=${ATLAS_IN%%.*}
 read -p 'Write path to data of thesis: ' MAINDIR
 
 # Choose template
-read -p 'Choose Suffix (with underscore if needed): ' suffix
+read -p 'Choose Suffix [ "" | _ictals | _controls ]: ' suffix
 
 # Define subject directories
 IN="$(pwd)/subjects/sub-control019_ses-midcycle"

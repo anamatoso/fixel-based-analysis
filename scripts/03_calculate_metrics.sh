@@ -2,7 +2,7 @@
 set -e
 
 # Get suffix of the template directory
-read -p 'Choose Suffix: ' arg
+read -p 'Choose Suffix [ "" | ictals | controls ]: ' arg
 if ! [ "${arg}" == "" ]; then 
     suffix="_${arg}"
 else

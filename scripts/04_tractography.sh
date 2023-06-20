@@ -2,7 +2,7 @@
 set -e
 
 # Get suffix of the template directory
-read -p 'Choose Suffix: ' arg
+read -p 'Choose Suffix [ "" | ictals | controls ]: ' arg
 if ! [ "${arg}" == "" ]; then 
     suffix="_${arg}"
 else
@@ -11,7 +11,7 @@ else
     suffix=""
 fi
 
-read -p 'Name of atlas: ' atlas
+read -p 'Name of atlas [ "" | JHUlabels | JHUtracts | AAL116 ]: ' atlas
 
 # Perform whole-brain fibre tractography on the FOD template
 cd template${suffix}

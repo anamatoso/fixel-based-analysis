@@ -2,7 +2,7 @@
 set -e
 
 # Get suffix of the template directory
-read -p 'Choose Suffix: ' arg
+read -p 'Choose Suffix [ "" | ictals | controls ]: ' arg
 if ! [ "${arg}" == "" ]; then 
     suffix="_${arg}"
 else
@@ -25,8 +25,6 @@ for i in $metrics; do
         echo " "
         echo "Starting comparison ${c} of metric ${i}"
         python ./create_files_stats.py $c $i $suffix
-        #python ./check_rank.py "./text_files/design_matrix_${c}.txt"
-        
 
         if [ ${c} == "midinter" ] || [ ${c} == "premict" ] || [ ${c} == "prempost" ] || [ ${c} == "prempre" ]; then 
             contrast="contrast_matrix_unpaired"

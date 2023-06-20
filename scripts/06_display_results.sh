@@ -6,8 +6,8 @@ read -p 'Choose metric [fd | log_fc | fdc]: ' metric
 read -p 'Choose statistic [fwe_1mpvalue | uncorrected_pvalue | tvalue | Zstat]: ' stat
 read -p 'Choose comparison [midinter| midpre | premict | interpre]: ' comp
 read -p 'Choose contrast [sup | inf]: ' contrast
-read -p 'Choose Suffix of template (use underscore if needed): ' suffix
-read -p 'Choose Atlas (use underscore if needed): ' atlas
+read -p 'Choose Suffix of template [ "" | _ictals | _controls ]: ' suffix
+read -p 'Choose Atlas [ "" | _JHUlabels | _JHUtracts | _AAL116 ]: ' atlas
 
 if [ ${stat} == "uncorrected_pvalue" ]; then 
         limit1=0
