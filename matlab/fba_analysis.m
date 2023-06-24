@@ -9,10 +9,10 @@ clc
 atlases = ["JHUtracts" "JHUlabels" "AAL116"];
 groups = ["controls" "ictals"];
 
-% Iterate through csvs to load matrices
+% Iterate through csvs to load matrices of the templates
 for i_a=1:length(atlases)
     for i_g=1:length(groups)
-        data.(atlases(i_a)).(groups(i_g))=load("matrices/con_matrix_" + groups(i_g) + "_" + atlases(i_a) + ".csv"); % struct with the matrix of each group of each atlas
+        data.(atlases(i_a)).(groups(i_g))=load("template_matrices/con_matrix_" + groups(i_g) + "_" + atlases(i_a) + ".csv"); % struct with the matrix of each group of each atlas
     end
 end
 
